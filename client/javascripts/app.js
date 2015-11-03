@@ -28,7 +28,6 @@ var BookRouter = Backbone.Router.extend({
 	},
 
 	addBook: function() {
-		console.log("test");	
 		$('#container').html(new AddBookView().render().el);
 	}
 });
