@@ -10,6 +10,13 @@ var BookView = Backbone.View.extend({
 	render: function(options) {
 		this.$el.html(this.template({book: this.model.toJSON()}));
 		return this;
+	},
+	events: {
+		'click #remove-book':'onClickRemove'
+	},
+
+	onClickRemove: function(event) {
+		this.model.destroy();
 	}
 });
 

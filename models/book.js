@@ -28,6 +28,16 @@ Book.statics.findByTitle = function(title, callback) {
 	});
 };
 
+Book.statics.findById = function(id, callback) {
+	this.findOne({_id: id}, function(err, data) {
+		if(err) {
+			return callback(err, null);
+		} else {
+			return callback(null, data);
+		}
+	});
+};
+
 var BookModel = mongoose.model('Book', Book);
 
 BookModel.addBook = function(book, callback) {
@@ -40,5 +50,39 @@ BookModel.addBook = function(book, callback) {
 		}
 	});
 };
+
+BookModel.removeBook = function(id, callback) {
+	console.log(id);
+	BookModel.remove({_id: id}, function(err) {
+		if(err) {
+			return callback(err);
+		} else {
+			return callback(null);
+		}
+	});
+};
+
+BookModel.updateBook = function(id, book, callback) {
+	BookModel.findById(id, function(err, b) {
+		if(err) {
+			return callback(err, null);
+		} else {
+			b.title = book.title;
+			b.genre = book.genre;
+			b.author = book.author;
+			b.rating = book.rating;
+			b.isbn = book.isbn;
+			
+			b.save(function(err, data) {
+				if(err) {
+					callback(err, null);
+				} else {
+					callback(null, data);
+				}
+			});
+		}
+	});
+};
+
 
 module.exports = BookModel;

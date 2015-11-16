@@ -5,7 +5,7 @@ var BookView = require('./book_view');
 var $ = require('jquery');
 
 var BooklistItemView = Backbone.View.extend({
-	tagName: 'li',
+	tagName: 'div',
 	template: BooklistItemTemplate,
 	initialize: function() {
 		this.listenTo(this.model, 'change', this.render);
@@ -15,13 +15,28 @@ var BooklistItemView = Backbone.View.extend({
 		return this;
 	},
 	events: {
-		'click li': 'onClickItem'
+		'click .title': 'onClickItem',
+		'click button.toggle': 'onToggleRate',
+		'click button.rate': 'onClickRate'
 	},
 
 	onClickItem: function(event) {
 		event.preventDefault();
-		console.log("Clicked " + this.model.get('title'));
 		window.location = '/#view/' + this.model.get('title');
+	},
+
+	onToggleRate: function(event) {
+		event.preventDefault();
+		console.log('Clicked toggle');
+		console.log($(event.currentTarget).parent().next());
+		$(event.currentTarget).parent().next().toggle();
+	},
+
+	onClickRate: function(event) {
+		event.preventDefault();
+		var rating = $(event.currentTarget).siblings('.rate_value').val();
+		this.model.set({rating:rating});
+		this.model.save();
 	}
 });
 

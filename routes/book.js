@@ -17,7 +17,7 @@ router.get('/:title', function(req, res, next) {
 	if(title) {
 		Book.findByTitle(title, function(err, data) {
 			if(err) {
-				return res.status(500).json({msg: err});
+				return res.status(400).json({msg: err});
 			} else {
 				return res.status(200).json(data);
 			}
@@ -28,9 +28,7 @@ router.get('/:title', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-	console.log('test');
 	var book = req.body;
-	console.log(book);
 	if(!book) {
 		return res.status(400).json({msg: 'You need to post a book object!'});
 	} else {
@@ -38,7 +36,34 @@ router.post('/', function(req, res, next) {
 			if(err) {
 				return res.status(400).json({msg: err});
 			} else {
-				return res.status(204).json({msg: data});
+				return res.status(201).json({msg: data});
+			}
+		});
+	}
+});
+
+router.delete('/:book_id', function(req, res, next) {
+	var id = req.params.book_id;
+	Book.removeBook(id, function(err, data) {
+		if(err) {
+			return res.status(400).json({msg: err});
+		} else {
+			return res.status(200).json({msg: data});
+		}
+	});
+});
+
+router.put('/:book_id', function(req, res, next) {
+	var book = req.body;
+	var id = req.params.book_id;
+	if(!book) {
+		return res.status(400).json({msg: 'You need to PUT a book object!'});
+	} else {
+		Book.updateBook(id, book, function(err, data) {
+			if(err) {
+				return res.status(400).json({msg: err});
+			} else {
+				return res.status(200).json({msg: data});
 			}
 		});
 	}

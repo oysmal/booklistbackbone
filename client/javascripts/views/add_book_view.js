@@ -17,14 +17,6 @@ var BookView = Backbone.View.extend({
 		console.log(this.form.el);
 		this.$el.html(this.form.el);
 		return this;
-	},
-	events: {
-		'click #add-book-button': 'onAddBook'
-	},
-	onAddBook: function(e) {
-		e.preventDefault();
-		this.form.commit();
-		console.log('test');
 	}
 });
 

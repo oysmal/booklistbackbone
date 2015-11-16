@@ -21,6 +21,9 @@ var BookRouter = Backbone.Router.extend({
 
 	booklist: function() {
 		$('#container').html(new BookCollectionView({collection: collection}).render().el);
+		$('.togglediv').each(function() {
+			$(this).toggle(false);
+		});
 	},
 
 	viewBook: function(title) {
@@ -177,25 +180,27 @@ module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":f
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.rating : stack1), depth0))
     + "</p>\n	<p>ISBN: "
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.isbn : stack1), depth0))
-    + "</p>\n</div>";
+    + "</p>\n\n	<button class=\"btn btn-danger\" id=\"remove-book\">Remove book</button>\n</div>";
 },"useData":true});
 
 },{"hbsfy/runtime":36}],8:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<form id=\"add-book-form\">\n\n	<h4>Title: </h4>\n	<div data-editors=\"title\"></div>\n\n	<h4>Author: </h4>\n	<div data-editors=\"author\"></div>\n\n	<h4>Genre: </h4>\n	<div data-editors=\"genre\"></div>\n\n	<h4>ISBN: </h4>\n	<div data-editors=\"isbn\"></div>\n	\n	<button type=\"submit\" id=\"add-book-button\" class=\"btn btn-primary\">Add book</button>\n</form>";
+    return "<form id=\"add-book-form\">\n\n	<h5>Title: </h5>\n	<div data-editors=\"title\"></div>\n\n	<h5>Author: </h5>\n	<div data-editors=\"author\"></div>\n\n	<h5>Genre: </h5>\n	<div data-editors=\"genre\"></div>\n\n	<h5>ISBN: </h5>\n	<div data-editors=\"isbn\"></div>\n	\n	<button type=\"submit\" id=\"add-book-button\" class=\"btn btn-primary\">Add book</button>\n</form>";
 },"useData":true});
 
 },{"hbsfy/runtime":36}],9:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "<li class=\"booklist-item\">\n	<p>Title: "
-    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.title : stack1), depth0))
-    + "</p>\n</li>\n";
+  return "<div class=\"booklist-item row\">\n\n	<div class=\"row\">\n		<h4 class=\"title col-xs-10\">Title: "
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.title : stack1), depth0))
+    + "</h4>\n		<button class=\"btn toggle col-xs-2\" name=\"rate\">Rate</button>\n	</div>\n\n	<div class=\"togglediv row dropdown-container\">\n		<label class=\"col-xs-6\" for=\"id_rate\">Rate: </label>\n		<div class=\"col-xs-1\"></div>\n		<input class=\"rate_value col-xs-2\" type=\"number\" id=\"id_rate\" name=\"rate\" min=\"1\" max=\"6\" value=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.rating : stack1), depth0))
+    + "\" />\n		<div class=\"col-xs-1\"></div>\n		<button class=\"btn btn-primary rate col-xs-2\" name=\"submit\">Rate</submit>\n	</div>\n\n</div>\n";
 },"useData":true});
 
 },{"hbsfy/runtime":36}],10:[function(require,module,exports){
@@ -218,14 +223,6 @@ var BookView = Backbone.View.extend({
 		console.log(this.form.el);
 		this.$el.html(this.form.el);
 		return this;
-	},
-	events: {
-		'click #add-book-button': 'onAddBook'
-	},
-	onAddBook: function(e) {
-		e.preventDefault();
-		this.form.commit();
-		console.log('test');
 	}
 });
 
@@ -268,6 +265,13 @@ var BookView = Backbone.View.extend({
 	render: function(options) {
 		this.$el.html(this.template({book: this.model.toJSON()}));
 		return this;
+	},
+	events: {
+		'click #remove-book':'onClickRemove'
+	},
+
+	onClickRemove: function(event) {
+		this.model.destroy();
 	}
 });
 
@@ -280,7 +284,7 @@ var BookView = require('./book_view');
 var $ = require('jquery');
 
 var BooklistItemView = Backbone.View.extend({
-	tagName: 'li',
+	tagName: 'div',
 	template: BooklistItemTemplate,
 	initialize: function() {
 		this.listenTo(this.model, 'change', this.render);
@@ -290,13 +294,28 @@ var BooklistItemView = Backbone.View.extend({
 		return this;
 	},
 	events: {
-		'click li': 'onClickItem'
+		'click .title': 'onClickItem',
+		'click button.toggle': 'onToggleRate',
+		'click button.rate': 'onClickRate'
 	},
 
 	onClickItem: function(event) {
 		event.preventDefault();
-		console.log("Clicked " + this.model.get('title'));
 		window.location = '/#view/' + this.model.get('title');
+	},
+
+	onToggleRate: function(event) {
+		event.preventDefault();
+		console.log('Clicked toggle');
+		console.log($(event.currentTarget).parent().next());
+		$(event.currentTarget).parent().next().toggle();
+	},
+
+	onClickRate: function(event) {
+		event.preventDefault();
+		var rating = $(event.currentTarget).siblings('.rate_value').val();
+		this.model.set({rating:rating});
+		this.model.save();
 	}
 });
 

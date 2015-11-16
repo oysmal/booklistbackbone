@@ -20,6 +20,9 @@ var BookRouter = Backbone.Router.extend({
 
 	booklist: function() {
 		$('#container').html(new BookCollectionView({collection: collection}).render().el);
+		$('.togglediv').each(function() {
+			$(this).toggle(false);
+		});
 	},
 
 	viewBook: function(title) {

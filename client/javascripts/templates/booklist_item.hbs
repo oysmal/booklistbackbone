@@ -1,3 +1,16 @@
-<li class="booklist-item">
-	<p>Title: {{book.title}}</p>
-</li>
+<div class="booklist-item row">
+
+	<div class="row">
+		<h4 class="title col-xs-10">Title: {{book.title}}</h4>
+		<button class="btn toggle col-xs-2" name="rate">Rate</button>
+	</div>
+
+	<div class="togglediv row dropdown-container">
+		<label class="col-xs-6" for="id_rate">Rate: </label>
+		<div class="col-xs-1"></div>
+		<input class="rate_value col-xs-2" type="number" id="id_rate" name="rate" min="1" max="6" value="{{book.rating}}" />
+		<div class="col-xs-1"></div>
+		<button class="btn btn-primary rate col-xs-2" name="submit">Rate</submit>
+	</div>
+
+</div>
