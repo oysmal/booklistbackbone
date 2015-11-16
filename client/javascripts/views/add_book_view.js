@@ -23,6 +23,7 @@ var BookView = Backbone.View.extend({
 	},
 	onAddBook: function(e) {
 		e.preventDefault();
+		this.form.commit();
 		console.log('test');
 	}
 });

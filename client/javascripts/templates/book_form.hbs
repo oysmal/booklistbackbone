@@ -1,20 +1,16 @@
 <form id="add-book-form">
 
-	<label for="book-title">Title: </label>
-	<input id="book-title" type="text" name="title" placholder="Title goes here..." />
+	<h4>Title: </h4>
+	<div data-editors="title"></div>
 
-	<label for="book-author">Author: </label>
-	<input id="book-author" type="text" name="author" placholder="Author goes here..." />
+	<h4>Author: </h4>
+	<div data-editors="author"></div>
 
-	<label for="book-genre">Genre: </label>
-	<input id="book-genre" type="text" name="genre" placholder="Genre goes here..." />
+	<h4>Genre: </h4>
+	<div data-editors="genre"></div>
 
-	<label for="book-rating">Rating: </label>
-	<input id="book-rating" type="range" min="0" max="5"  name="rating"/>
+	<h4>ISBN: </h4>
+	<div data-editors="isbn"></div>
 	
-
-	<label for="book-isbn">ISBN: </label>
-	<input id="book-isbn" type="text" name="isbn" placholder="ISBN goes here..." />
-
-	<button id="add-book-button">Add book</button>
+	<button type="submit" id="add-book-button" class="btn btn-primary">Add book</button>
 </form>

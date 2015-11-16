@@ -1,6 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var dummy = require('./mock-collections');
 var BookCollectionView = require('./views/book_collection_view');
+var BookCollection = require('./models/book_collection');
 var BookView = require('./views/book_view');
 var AddBookView = require('./views/add_book_view');
 var $ = require('jquery');
@@ -8,6 +9,8 @@ var Backbone = require('backbone');
 var _ = require('underscore');
 var BackboneForms = require('backbone-forms');
 Backbone.$ = $;
+
+var collection = new BookCollection();
 
 var BookRouter = Backbone.Router.extend({
 	routes: {
@@ -17,7 +20,7 @@ var BookRouter = Backbone.Router.extend({
 	},
 
 	booklist: function() {
-		$('#container').html(new BookCollectionView({collection: dummy}).render().el);
+		$('#container').html(new BookCollectionView({collection: collection}).render().el);
 	},
 
 	viewBook: function(title) {
@@ -29,7 +32,6 @@ var BookRouter = Backbone.Router.extend({
 	},
 
 	addBook: function() {
-		console.log("test");	
 		$('#container').html(new AddBookView().render().el);
 	}
 });
@@ -47,9 +49,10 @@ window.onload = function() {
 	booklistView.render();*/
 };
 
-},{"./mock-collections":3,"./views/add_book_view":10,"./views/book_collection_view":11,"./views/book_view":12,"backbone":15,"backbone-forms":14,"jquery":37,"underscore":38}],2:[function(require,module,exports){
+},{"./mock-collections":3,"./models/book_collection":5,"./views/add_book_view":10,"./views/book_collection_view":11,"./views/book_view":12,"backbone":15,"backbone-forms":14,"jquery":37,"underscore":38}],2:[function(require,module,exports){
 var Backbone = require('backbone');
 var Book = require('../models/book');
+var BookCollection = require('../models/book_collection');
 var $ = require('jquery');
 var BookFormTemplate = require('../templates/book_form');
 var BackboneForms = require('backbone-forms');
@@ -58,25 +61,34 @@ Backbone.$ = $;
 var BookForm = Backbone.Form.extend({
 	template: BookFormTemplate,
 
+	/*initialize: function() {
+		this.model = new Book();
+	},*/
+
 	schema: {
 		title: {type: 'Text'},
 		author: {type: 'Text'},
 		genre: {type: 'Text'},
-		rating: {type: 'Text'},
-		isbn: {type: 'Text'},
+		isbn: {type: 'Text'}
 	},
 
+	submitButton: 'Submit',
+
 	events: {
-		'click #add-book-button': function(e) {
-			e.preventDefault();
-			console.log("saved book");
-			console.log(this.model);
-		}
+		'click #add-book-button': 'onAddBookClick'
+	},
+
+	onAddBookClick: function(e) {
+		e.preventDefault();
+		console.log(this.getValue());
+		this.commit();
+		console.log(this.model);
+		this.model.save();
 	}
 })
 
 module.exports = BookForm;
-},{"../models/book":4,"../templates/book_form":8,"backbone":15,"backbone-forms":14,"jquery":37}],3:[function(require,module,exports){
+},{"../models/book":4,"../models/book_collection":5,"../templates/book_form":8,"backbone":15,"backbone-forms":14,"jquery":37}],3:[function(require,module,exports){
 var Book = require('./models/book');
 var BookCollection = require('./models/book_collection');
 var BookView = require('./views/book_view');
@@ -117,6 +129,8 @@ module.exports = bookCollection;
 var Backbone = require('backbone');
 
 var Book = Backbone.Model.extend({
+	idAttribute: '_id',
+	urlRoot: '/book',
 	defaults: {
 		title: '',
 		author: '',
@@ -131,8 +145,12 @@ module.exports = Book;
 var Backbone = require('backbone');
 var Book = require('./book');
 
-var BookCollection = Backbone.Collection.extend( {
-	model: Book
+var BookCollection = Backbone.Collection.extend({
+	model: Book,
+	url: '/book',
+	initialize: function() {
+		this.fetch();
+	}
 });
 
 module.exports = BookCollection;
@@ -166,7 +184,7 @@ module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":f
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<form id=\"add-book-form\">\n\n	<label for=\"book-title\">Title: </label>\n	<input id=\"book-title\" type=\"text\" name=\"title\" placholder=\"Title goes here...\" />\n\n	<label for=\"book-author\">Author: </label>\n	<input id=\"book-author\" type=\"text\" name=\"author\" placholder=\"Author goes here...\" />\n\n	<label for=\"book-genre\">Genre: </label>\n	<input id=\"book-genre\" type=\"text\" name=\"genre\" placholder=\"Genre goes here...\" />\n\n	<label for=\"book-rating\">Rating: </label>\n	<input id=\"book-rating\" type=\"range\" min=\"0\" max=\"5\"  name=\"rating\"/>\n	\n\n	<label for=\"book-isbn\">ISBN: </label>\n	<input id=\"book-isbn\" type=\"text\" name=\"isbn\" placholder=\"ISBN goes here...\" />\n\n	<button id=\"add-book-button\">Add book</button>\n</form>";
+    return "<form id=\"add-book-form\">\n\n	<h4>Title: </h4>\n	<div data-editors=\"title\"></div>\n\n	<h4>Author: </h4>\n	<div data-editors=\"author\"></div>\n\n	<h4>Genre: </h4>\n	<div data-editors=\"genre\"></div>\n\n	<h4>ISBN: </h4>\n	<div data-editors=\"isbn\"></div>\n	\n	<button type=\"submit\" id=\"add-book-button\" class=\"btn btn-primary\">Add book</button>\n</form>";
 },"useData":true});
 
 },{"hbsfy/runtime":36}],9:[function(require,module,exports){
@@ -206,6 +224,7 @@ var BookView = Backbone.View.extend({
 	},
 	onAddBook: function(e) {
 		e.preventDefault();
+		this.form.commit();
 		console.log('test');
 	}
 });

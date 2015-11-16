@@ -1,5 +1,6 @@
 var dummy = require('./mock-collections');
 var BookCollectionView = require('./views/book_collection_view');
+var BookCollection = require('./models/book_collection');
 var BookView = require('./views/book_view');
 var AddBookView = require('./views/add_book_view');
 var $ = require('jquery');
@@ -7,6 +8,8 @@ var Backbone = require('backbone');
 var _ = require('underscore');
 var BackboneForms = require('backbone-forms');
 Backbone.$ = $;
+
+var collection = new BookCollection();
 
 var BookRouter = Backbone.Router.extend({
 	routes: {
@@ -16,7 +19,7 @@ var BookRouter = Backbone.Router.extend({
 	},
 
 	booklist: function() {
-		$('#container').html(new BookCollectionView({collection: dummy}).render().el);
+		$('#container').html(new BookCollectionView({collection: collection}).render().el);
 	},
 
 	viewBook: function(title) {
