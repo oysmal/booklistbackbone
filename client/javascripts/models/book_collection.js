@@ -6,6 +6,9 @@ var BookCollection = Backbone.Collection.extend({
 	url: '/book',
 	initialize: function() {
 		this.fetch();
+	},
+	comparator: function(item) {
+		return -item.get('rating');
 	}
 });
 

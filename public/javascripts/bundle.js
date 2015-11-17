@@ -24,7 +24,7 @@ var BookRouter = Backbone.Router.extend({
 	},
 
 	viewBook: function(title) {
-		var selectedBook = _(dummy.models).find(function(book) {
+		var selectedBook = _(collection.models).find(function(book) {
 			return book.get('title') === title;
 		});
 		
@@ -47,7 +47,7 @@ window.onload = function() {
 	router.navigate('booklist', {trigger: true});
 };
 
-},{"./mock-collections":3,"./models/book_collection":5,"./views/add_book_view":10,"./views/book_collection_view":11,"./views/book_view":12,"backbone":15,"backbone-forms":14,"jquery":37,"underscore":38}],2:[function(require,module,exports){
+},{"./mock-collections":3,"./models/book_collection":5,"./views/add_book_view":11,"./views/book_collection_view":12,"./views/book_view":13,"backbone":16,"backbone-forms":15,"jquery":38,"underscore":39}],2:[function(require,module,exports){
 var Backbone = require('backbone');
 var Book = require('../models/book');
 var BookCollection = require('../models/book_collection');
@@ -74,15 +74,14 @@ var BookForm = Backbone.Form.extend({
 
 	onAddBookClick: function(e) {
 		e.preventDefault();
-		console.log('test');
-		this.commit();
+		this.commit(); 
 		this.model.save();
 		window.location = '/';
 	}
 })
 
 module.exports = BookForm;
-},{"../models/book":4,"../models/book_collection":5,"../templates/book_form":8,"backbone":15,"backbone-forms":14,"jquery":37}],3:[function(require,module,exports){
+},{"../models/book":4,"../models/book_collection":5,"../templates/book_form":8,"backbone":16,"backbone-forms":15,"jquery":38}],3:[function(require,module,exports){
 var Book = require('./models/book');
 var BookCollection = require('./models/book_collection');
 var BookView = require('./views/book_view');
@@ -119,7 +118,7 @@ bookCollection.add(book2);
 bookCollection.add(book3);
 
 module.exports = bookCollection;
-},{"./models/book":4,"./models/book_collection":5,"./views/book_collection_view":11,"./views/book_view":12,"jquery":37}],4:[function(require,module,exports){
+},{"./models/book":4,"./models/book_collection":5,"./views/book_collection_view":12,"./views/book_view":13,"jquery":38}],4:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var Book = Backbone.Model.extend({
@@ -135,7 +134,7 @@ var Book = Backbone.Model.extend({
 });
 
 module.exports = Book;
-},{"backbone":15}],5:[function(require,module,exports){
+},{"backbone":16}],5:[function(require,module,exports){
 var Backbone = require('backbone');
 var Book = require('./book');
 
@@ -144,18 +143,21 @@ var BookCollection = Backbone.Collection.extend({
 	url: '/book',
 	initialize: function() {
 		this.fetch();
+	},
+	comparator: function(item) {
+		return -item.get('rating');
 	}
 });
 
 module.exports = BookCollection;
-},{"./book":4,"backbone":15}],6:[function(require,module,exports){
+},{"./book":4,"backbone":16}],6:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<div class=\"add-book-container\">\n\n</div>";
 },"useData":true});
 
-},{"hbsfy/runtime":36}],7:[function(require,module,exports){
+},{"hbsfy/runtime":37}],7:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -174,29 +176,36 @@ module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":f
     + "</p>\n\n	<button class=\"btn btn-danger\" id=\"remove-book\">Remove book</button>\n</div>";
 },"useData":true});
 
-},{"hbsfy/runtime":36}],8:[function(require,module,exports){
+},{"hbsfy/runtime":37}],8:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     return "<form id=\"add-book-form\">\n\n	<h5>Title: </h5>\n	<div data-editors=\"title\"></div>\n\n	<h5>Author: </h5>\n	<div data-editors=\"author\"></div>\n\n	<h5>Genre: </h5>\n	<div data-editors=\"genre\"></div>\n\n	<h5>ISBN: </h5>\n	<div data-editors=\"isbn\"></div>\n	\n	<button type=\"submit\" id=\"add-book-button\" class=\"btn btn-primary\">Add book</button>\n</form>";
 },"useData":true});
 
-},{"hbsfy/runtime":36}],9:[function(require,module,exports){
+},{"hbsfy/runtime":37}],9:[function(require,module,exports){
+// hbsfy compiled Handlebars template
+var HandlebarsCompiler = require('hbsfy/runtime');
+module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<div class=\"booklist\">\n	\n	<div class=\"row\">\n\n		<button id=\"sort-rating-submit\" class=\"btn btn-info col-xs-1\">Sort by rating</button>\n		<button id=\"sort-title-submit\" class=\"btn btn-info col-xs-1\">Sort by title</button>\n		\n		<label for=\"search-query\" class=\"col-xs-6\">Search for Title or ISBN: \n			<input id=\"search-query\" type=\"text\" name=\"search\" />\n			<button id=\"search-submit\" class=\"btn btn-success\">Search</button>\n		</label>\n\n	</div>\n\n	<br />\n	\n	<div id=\"content-list\"></div>\n\n</div>\n";
+},"useData":true});
+
+},{"hbsfy/runtime":37}],10:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "<div class=\"booklist-item row\">\n\n	<div class=\"row\">\n		<div class=\"book-info\">\n			<h4 class=\"book-title col-xs-4\">Title: "
+  return "<div class=\"booklist-item row list-group-item\">\n\n	<div class=\"row\">\n\n		<div class=\"book-info\">\n			<h4 class=\"book-title col-xs-6\">Title: "
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.title : stack1), depth0))
     + "</h4>\n			<h4 class=\"rating col-xs-2\">Rating: "
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.rating : stack1), depth0))
-    + "</h4>\n		</div>\n		<button class=\"btn toggle col-xs-2\" name=\"rate\">Rate</button>\n	</div>\n\n	<div class=\"togglediv row dropdown-container\">\n		<label class=\"col-xs-2\" for=\"id_rate\">Rate: </label>\n		<div class=\"col-xs-1\"></div>\n		<input class=\"rate_value col-xs-2\" type=\"number\" id=\"id_rate\" name=\"rate\" min=\"1\" max=\"6\" value=\""
+    + "</h4>\n		</div>\n	\n		<div class=\"col-xs-2 pull-right\">\n			<button class=\"btn btn-info toggle\" name=\"rate\">Rate</button>\n			<button class=\"btn btn-danger delete\" name=\"rate\">Delete</button>\n		</div>\n	\n		<div class=\"col-xs-1\"></div>\n\n	</div>\n\n	<div class=\"togglediv row dropdown-container\">\n		\n		<label class=\"col-xs-4\" for=\"id_rate\">Rate: </label>\n\n		<div class=\"col-xs-1\"></div>\n\n		<input class=\"rate_value col-xs-4\" type=\"number\" id=\"id_rate\" name=\"rate\" min=\"1\" max=\"6\" value=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.rating : stack1), depth0))
-    + "\" />\n		<div class=\"col-xs-1\"></div>\n		<button class=\"btn btn-primary rate col-xs-2\" name=\"submit\">Rate</submit>\n	</div>\n\n</div>\n";
+    + "\" />\n\n		<div class=\"col-xs-1\"></div>\n		\n		<button class=\"btn btn-success rate col-xs-2\" name=\"submit\">Rate</submit>\n\n	</div>\n\n</div>\n";
 },"useData":true});
 
-},{"hbsfy/runtime":36}],10:[function(require,module,exports){
+},{"hbsfy/runtime":37}],11:[function(require,module,exports){
 var AddBookTemplate = require('../templates/add_book');
 var Backbone = require('backbone');
 var AddBookTemplate = require('../templates/add_book');
@@ -219,40 +228,77 @@ var BookView = Backbone.View.extend({
 });
 
 module.exports = BookView;
-},{"../forms/add_book_form":2,"../models/book":4,"../templates/add_book":6,"backbone":15,"jquery":37}],11:[function(require,module,exports){
+},{"../forms/add_book_form":2,"../models/book":4,"../templates/add_book":6,"backbone":16,"jquery":38}],12:[function(require,module,exports){
 var Book = require('../models/book');
 var BookCollection = require('../models/book_collection');
+var BookCollectionViewTemplate = require('../templates/booklist_collection_view');
 var BookView = require('./book_view');
 var BooklistItemView = require('./booklist_item_view');
 var Backbone = require('backbone');
+var $ = require('jquery');
+var _ = require('underscore');
+
 
 var BookCollectionView = Backbone.View.extend({
 	tagName: 'div',
+	template: BookCollectionViewTemplate,
 	initialize: function() {
 		this.collection.fetch();
+		this.collection.sort();
 		this.listenTo(this.collection, 'add', this.render);
   		this.listenTo(this.collection, 'reset', this.render);
   		this.listenTo(this.collection, 'remove', this.render);
-  		var self = this;
-  		setInterval(function() {
-  			self.collection.fetch();
-  		}, 5000);
 	},
-	render: function() {
+	render: function() {		
 		this.$el.empty();
+		this.$el.html(this.template());
 		var self = this;
 		this.collection.each(function(item) {
 			var itemView = new BooklistItemView({model: item});
 			itemView.render();
-			self.$el.append(itemView.el);
+			self.$('#content-list').append(itemView.el);
 		});
 		return this;
+	},
+	events: {
+		'click #search-submit': 'onSearchSubmit',
+		'click #sort-rating-submit': 'onSortRating',
+		'click #sort-title-submit': 'onSortTitle',
+	},
+
+	onSearchSubmit: function(event) {
+		var list = [];
+		_(this.collection.models).each(function(model) {
+			var value = $('#search-query').val().toLowerCase();
+			console.log(model.get('title'));
+			if(model.get('title').toLowerCase().contains(value) || model.get('isbn').toLowerCase().contains(value)) {
+				list.push(model);
+			}
+		});
+		this.collection.models = list;
+		this.render();
+	},
+
+	onSortRating: function(event) {
+		this.collection.comparator = function(item) {
+			return -item.get('rating');
+		};
+		this.collection.sort();
+		this.render();
+	},
+
+	onSortTitle: function(event) {
+		this.collection.comparator = function(item) {
+			return item.get('title');
+		};
+		this.collection.sort();
+		this.render();
 	}
 });
 
 
 module.exports = BookCollectionView;
-},{"../models/book":4,"../models/book_collection":5,"./book_view":12,"./booklist_item_view":13,"backbone":15}],12:[function(require,module,exports){
+},{"../models/book":4,"../models/book_collection":5,"../templates/booklist_collection_view":9,"./book_view":13,"./booklist_item_view":14,"backbone":16,"jquery":38,"underscore":39}],13:[function(require,module,exports){
 var Backbone = require('backbone');
 var Book = require('../models/book');
 var BookTemplate = require('../templates/book');
@@ -277,7 +323,7 @@ var BookView = Backbone.View.extend({
 });
 
 module.exports = BookView;
-},{"../models/book":4,"../templates/book":7,"backbone":15}],13:[function(require,module,exports){
+},{"../models/book":4,"../templates/book":7,"backbone":16}],14:[function(require,module,exports){
 var Backbone = require('backbone');
 var Book = require('../models/book');
 var BooklistItemTemplate = require('../templates/booklist_item');
@@ -293,13 +339,14 @@ var BooklistItemView = Backbone.View.extend({
 	render: function(options) {
 		this.$el.html(this.template({book: this.model.toJSON()}));
 		// Toggle off rate view.
-		$(this.el).children().eq(0).children().eq(1).toggle(false);
+		this.$('.togglediv').toggle(false);
 		return this;
 	},
 	events: {
 		'click .book-info': 'onClickItem',
 		'click button.toggle': 'onToggleRate',
-		'click button.rate': 'onClickRate'
+		'click button.rate': 'onClickRate',
+		'click button.delete': 'onClickDelete'
 	},
 
 	onClickItem: function(event) {
@@ -314,14 +361,18 @@ var BooklistItemView = Backbone.View.extend({
 
 	onClickRate: function(event) {
 		event.preventDefault();
-		var rating = $(event.currentTarget).siblings('.rate_value').val();
+		var rating = this.$('.rate_value').val();
 		this.model.set({rating:rating});
 		this.model.save();
+	},
+
+	onClickDelete: function(event) {
+		this.model.destroy();
 	}
 });
 
 module.exports = BooklistItemView;
-},{"../models/book":4,"../templates/booklist_item":9,"./book_view":12,"backbone":15,"jquery":37}],14:[function(require,module,exports){
+},{"../models/book":4,"../templates/booklist_item":10,"./book_view":13,"backbone":16,"jquery":38}],15:[function(require,module,exports){
 (function (global){
 /**
  * Backbone Forms v0.13.0
@@ -2770,7 +2821,7 @@ Form.editors.DateTime = Form.editors.Base.extend({
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"backbone":15,"jquery":37,"underscore":38}],15:[function(require,module,exports){
+},{"backbone":16,"jquery":38,"underscore":39}],16:[function(require,module,exports){
 (function (global){
 //     Backbone.js 1.2.3
 
@@ -4669,7 +4720,7 @@ Form.editors.DateTime = Form.editors.Base.extend({
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"jquery":37,"underscore":16}],16:[function(require,module,exports){
+},{"jquery":38,"underscore":17}],17:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -6219,7 +6270,7 @@ Form.editors.DateTime = Form.editors.Base.extend({
   }
 }.call(this));
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6288,7 +6339,7 @@ exports['default'] = inst;
 module.exports = exports['default'];
 
 
-},{"./handlebars/base":18,"./handlebars/exception":21,"./handlebars/no-conflict":31,"./handlebars/runtime":32,"./handlebars/safe-string":33,"./handlebars/utils":34}],18:[function(require,module,exports){
+},{"./handlebars/base":19,"./handlebars/exception":22,"./handlebars/no-conflict":32,"./handlebars/runtime":33,"./handlebars/safe-string":34,"./handlebars/utils":35}],19:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6394,7 +6445,7 @@ exports.createFrame = _utils.createFrame;
 exports.logger = _logger2['default'];
 
 
-},{"./decorators":19,"./exception":21,"./helpers":22,"./logger":30,"./utils":34}],19:[function(require,module,exports){
+},{"./decorators":20,"./exception":22,"./helpers":23,"./logger":31,"./utils":35}],20:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6412,7 +6463,7 @@ function registerDefaultDecorators(instance) {
 }
 
 
-},{"./decorators/inline":20}],20:[function(require,module,exports){
+},{"./decorators/inline":21}],21:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6443,7 +6494,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":34}],21:[function(require,module,exports){
+},{"../utils":35}],22:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6485,7 +6536,7 @@ exports['default'] = Exception;
 module.exports = exports['default'];
 
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6533,7 +6584,7 @@ function registerDefaultHelpers(instance) {
 }
 
 
-},{"./helpers/block-helper-missing":23,"./helpers/each":24,"./helpers/helper-missing":25,"./helpers/if":26,"./helpers/log":27,"./helpers/lookup":28,"./helpers/with":29}],23:[function(require,module,exports){
+},{"./helpers/block-helper-missing":24,"./helpers/each":25,"./helpers/helper-missing":26,"./helpers/if":27,"./helpers/log":28,"./helpers/lookup":29,"./helpers/with":30}],24:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6574,7 +6625,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":34}],24:[function(require,module,exports){
+},{"../utils":35}],25:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6670,7 +6721,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../exception":21,"../utils":34}],25:[function(require,module,exports){
+},{"../exception":22,"../utils":35}],26:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6697,7 +6748,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../exception":21}],26:[function(require,module,exports){
+},{"../exception":22}],27:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6728,7 +6779,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":34}],27:[function(require,module,exports){
+},{"../utils":35}],28:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6756,7 +6807,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6770,7 +6821,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6805,7 +6856,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":34}],30:[function(require,module,exports){
+},{"../utils":35}],31:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6854,7 +6905,7 @@ exports['default'] = logger;
 module.exports = exports['default'];
 
 
-},{"./utils":34}],31:[function(require,module,exports){
+},{"./utils":35}],32:[function(require,module,exports){
 (function (global){
 /* global window */
 'use strict';
@@ -6878,7 +6929,7 @@ module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -7172,7 +7223,7 @@ function executeDecorators(fn, prog, container, depths, data, blockParams) {
 }
 
 
-},{"./base":18,"./exception":21,"./utils":34}],33:[function(require,module,exports){
+},{"./base":19,"./exception":22,"./utils":35}],34:[function(require,module,exports){
 // Build out our basic SafeString type
 'use strict';
 
@@ -7189,7 +7240,7 @@ exports['default'] = SafeString;
 module.exports = exports['default'];
 
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -7315,15 +7366,15 @@ function appendContextPath(contextPath, id) {
 }
 
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 // Create a simple path alias to allow browserify to resolve
 // the runtime on a supported path.
 module.exports = require('./dist/cjs/handlebars.runtime')['default'];
 
-},{"./dist/cjs/handlebars.runtime":17}],36:[function(require,module,exports){
+},{"./dist/cjs/handlebars.runtime":18}],37:[function(require,module,exports){
 module.exports = require("handlebars/runtime")["default"];
 
-},{"handlebars/runtime":35}],37:[function(require,module,exports){
+},{"handlebars/runtime":36}],38:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -16535,9 +16586,9 @@ return jQuery;
 
 }));
 
-},{}],38:[function(require,module,exports){
-arguments[4][16][0].apply(exports,arguments)
-},{"dup":16}]},{},[1])
+},{}],39:[function(require,module,exports){
+arguments[4][17][0].apply(exports,arguments)
+},{"dup":17}]},{},[1])
 
 
 //# sourceMappingURL=bundle.js.map

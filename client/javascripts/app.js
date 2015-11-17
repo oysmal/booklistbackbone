@@ -23,7 +23,7 @@ var BookRouter = Backbone.Router.extend({
 	},
 
 	viewBook: function(title) {
-		var selectedBook = _(dummy.models).find(function(book) {
+		var selectedBook = _(collection.models).find(function(book) {
 			return book.get('title') === title;
 		});
 		

@@ -13,13 +13,14 @@ var BooklistItemView = Backbone.View.extend({
 	render: function(options) {
 		this.$el.html(this.template({book: this.model.toJSON()}));
 		// Toggle off rate view.
-		$(this.el).children().eq(0).children().eq(1).toggle(false);
+		this.$('.togglediv').toggle(false);
 		return this;
 	},
 	events: {
 		'click .book-info': 'onClickItem',
 		'click button.toggle': 'onToggleRate',
-		'click button.rate': 'onClickRate'
+		'click button.rate': 'onClickRate',
+		'click button.delete': 'onClickDelete'
 	},
 
 	onClickItem: function(event) {
@@ -34,9 +35,13 @@ var BooklistItemView = Backbone.View.extend({
 
 	onClickRate: function(event) {
 		event.preventDefault();
-		var rating = $(event.currentTarget).siblings('.rate_value').val();
+		var rating = this.$('.rate_value').val();
 		this.model.set({rating:rating});
 		this.model.save();
+	},
+
+	onClickDelete: function(event) {
+		this.model.destroy();
 	}
 });
 
