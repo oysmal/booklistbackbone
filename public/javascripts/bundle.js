@@ -186,7 +186,7 @@ module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":f
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"booklist\">\n\n	<h1>SJØlveste Booklisten</h1>\n	<br />\n	<br />\n	\n	<div class=\"container-fluid\">\n		<div class=\"row\">\n\n			<button id=\"sort-rating-submit\" class=\"btn btn-info col-md-2\">Sort by rating</button>\n			<button id=\"sort-title-submit\" class=\"btn btn-info col-md-2\">Sort by title</button>\n			\n			<label for=\"search-query\" class=\"col-md-6\">Search for Title or ISBN: \n				<input id=\"search-query\" type=\"text\" name=\"search\" />\n				<button id=\"search-submit\" class=\"btn btn-success\">Search</button>\n			</label>\n\n		</div>\n	</div>\n\n	<br />\n	\n	<div id=\"content-list\"></div>\n\n</div>\n";
+    return "<div class=\"booklist\">\n\n	<h1>SJØlveste Booklisten</h1>\n	<br />\n	<br />\n	\n	<div class=\"container-fluid\">\n		<div class=\"row\">\n\n			<div class=\"btn-group col-md-4\">\n				<button id=\"sort-rating-submit\" class=\"btn btn-info\">Sort by rating</button>\n				<button id=\"sort-title-submit\" class=\"btn btn-info\">Sort by title</button>\n			</div>\n			\n			<div class=\"col-md-8\"\n				<label for=\"search-query\">Search for Title or ISBN: \n					<input id=\"search-query\" type=\"text\" name=\"search\" />\n					<button id=\"search-submit\" class=\"btn btn-success\">Search</button>\n				</label>\n			</div>\n\n		</div>\n	</div>\n\n	<br />\n	\n	<div id=\"content-list\"></div>\n\n</div>\n";
 },"useData":true});
 
 },{"hbsfy/runtime":37}],10:[function(require,module,exports){
@@ -199,7 +199,7 @@ module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":f
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.title : stack1), depth0))
     + "</h4>\n			<h4 class=\"rating col-xs-2\">Rating: "
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.rating : stack1), depth0))
-    + "</h4>\n		</div>\n	\n		<div class=\"col-xs-2 pull-right\">\n			<button class=\"btn btn-info toggle\" name=\"rate\">Rate</button>\n			<button class=\"btn btn-danger delete\" name=\"rate\">Delete</button>\n		</div>\n	\n		<div class=\"col-xs-1\"></div>\n\n	</div>\n\n	<div class=\"togglediv row dropdown-container\">\n		\n		<label class=\"col-xs-4\" for=\"id_rate\">Rate: </label>\n\n		<div class=\"col-xs-1\"></div>\n\n		<input class=\"rate_value col-xs-4\" type=\"number\" id=\"id_rate\" name=\"rate\" min=\"1\" max=\"6\" value=\""
+    + "</h4>\n		</div>\n	\n		<div class=\"col-xs-2 pull-right btn-group\">\n			<button class=\"btn btn-info toggle\" name=\"rate\">Rate</button>\n			<button class=\"btn btn-danger delete\" name=\"rate\">Delete</button>\n		</div>\n	\n		<div class=\"col-xs-1\"></div>\n\n	</div>\n\n	<div class=\"togglediv row dropdown-container\">\n		\n		<label class=\"col-xs-4\" for=\"id_rate\">Rate: </label>\n\n		<div class=\"col-xs-1\"></div>\n\n		<input class=\"rate_value col-xs-4\" type=\"number\" id=\"id_rate\" name=\"rate\" min=\"1\" max=\"10\" value=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.rating : stack1), depth0))
     + "\" />\n\n		<div class=\"col-xs-1\"></div>\n		\n		<button class=\"btn btn-success rate col-xs-2\" name=\"submit\">Rate</submit>\n\n	</div>\n\n</div>\n";
 },"useData":true});

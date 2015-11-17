@@ -25,20 +25,3 @@ a {
 	color: #2222FF;
 	cursor: pointer;
 }
-
-#sort-rating-submit {
-	margin-right: 1em;
-}
-
-#search-submit {
-	margin-right: 1em;
-	margin-left: 1em;
-}
-
-#sort-title-submit {
-	margin-right: 1em;
-}
-
-button.delete {
-	margin-left: 1em;
-}
