@@ -60,12 +60,11 @@ var BookForm = Backbone.Form.extend({
 	template: BookFormTemplate,
 
 	schema: {
-		title: {type: 'Text'},
-		author: {type: 'Text'},
-		genre: {type: 'Text'},
-		isbn: {type: 'Text'}
+		title: {type: 'Text', editorClass: 'form-control'},
+		author: {type: 'Text', editorClass: 'form-control'},
+		genre: {type: 'Text', editorClass: 'form-control'},
+		isbn: {type: 'Text', editorClass: 'form-control'}
 	},
-
 	submitButton: 'Submit',
 
 	events: {
@@ -154,7 +153,7 @@ module.exports = BookCollection;
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"add-book-container\">\n\n</div>";
+    return "<div class=\"add-book-container\">\n	<h2>Add a book!</h2>\n	<br />\n	<br />\n	<div id=\"form-container\"></div>\n\n</div>";
 },"useData":true});
 
 },{"hbsfy/runtime":37}],7:[function(require,module,exports){
@@ -180,14 +179,14 @@ module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":f
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<form id=\"add-book-form\">\n\n	<h5>Title: </h5>\n	<div data-editors=\"title\"></div>\n\n	<h5>Author: </h5>\n	<div data-editors=\"author\"></div>\n\n	<h5>Genre: </h5>\n	<div data-editors=\"genre\"></div>\n\n	<h5>ISBN: </h5>\n	<div data-editors=\"isbn\"></div>\n	\n	<button type=\"submit\" id=\"add-book-button\" class=\"btn btn-primary\">Add book</button>\n</form>";
+    return "<form role=\"form\" id=\"add-book-form form-control form\">\n\n	<div class=\"form-group\">\n		<h5>Title: </h5>\n		<div data-editors=\"title\"></div>\n	</div>\n\n	<div class=\"form-group\">\n		<h5>Author: </h5>\n		<div data-editors=\"author\"></div>\n	</div>\n\n	<div class=\"form-group\">\n		<h5>Genre: </h5>\n		<div data-editors=\"genre\"></div>\n	</div>\n\n	<div class=\"form-group\">\n		<h5>ISBN: </h5>\n		<div data-editors=\"isbn\"></div>\n	</div>\n	\n	<div class=\"form-group\">\n		<button type=\"submit\" id=\"add-book-button\" class=\"btn btn-success form-control\">Add book</button>\n	</div>\n\n</form>";
 },"useData":true});
 
 },{"hbsfy/runtime":37}],9:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"booklist\">\n	\n	<div class=\"row\">\n\n		<button id=\"sort-rating-submit\" class=\"btn btn-info col-xs-1\">Sort by rating</button>\n		<button id=\"sort-title-submit\" class=\"btn btn-info col-xs-1\">Sort by title</button>\n		\n		<label for=\"search-query\" class=\"col-xs-6\">Search for Title or ISBN: \n			<input id=\"search-query\" type=\"text\" name=\"search\" />\n			<button id=\"search-submit\" class=\"btn btn-success\">Search</button>\n		</label>\n\n	</div>\n\n	<br />\n	\n	<div id=\"content-list\"></div>\n\n</div>\n";
+    return "<div class=\"booklist\">\n\n	<h1>SJØlveste Booklisten</h1>\n	<br />\n	<br />\n	\n	<div class=\"row\">\n\n		<button id=\"sort-rating-submit\" class=\"btn btn-info col-xs-1\">Sort by rating</button>\n		<button id=\"sort-title-submit\" class=\"btn btn-info col-xs-1\">Sort by title</button>\n		\n		<label for=\"search-query\" class=\"col-xs-6\">Search for Title or ISBN: \n			<input id=\"search-query\" type=\"text\" name=\"search\" />\n			<button id=\"search-submit\" class=\"btn btn-success\">Search</button>\n		</label>\n\n	</div>\n\n	<br />\n	\n	<div id=\"content-list\"></div>\n\n</div>\n";
 },"useData":true});
 
 },{"hbsfy/runtime":37}],10:[function(require,module,exports){
@@ -221,8 +220,9 @@ var BookView = Backbone.View.extend({
 	},
 	render: function(options) {
 		var book = new Book();
+		this.$el.html(this.template());
 		this.form.render();
-		this.$el.html(this.form.el);
+		this.$('#form-container').append(this.form.el);
 		return this;
 	}
 });
@@ -356,7 +356,7 @@ var BooklistItemView = Backbone.View.extend({
 
 	onToggleRate: function(event) {
 		event.preventDefault();
-		$(event.currentTarget).parent().next().toggle();
+		this.$('.togglediv').toggle();
 	},
 
 	onClickRate: function(event) {

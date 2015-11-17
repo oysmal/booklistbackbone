@@ -10,12 +10,11 @@ var BookForm = Backbone.Form.extend({
 	template: BookFormTemplate,
 
 	schema: {
-		title: {type: 'Text'},
-		author: {type: 'Text'},
-		genre: {type: 'Text'},
-		isbn: {type: 'Text'}
+		title: {type: 'Text', editorClass: 'form-control'},
+		author: {type: 'Text', editorClass: 'form-control'},
+		genre: {type: 'Text', editorClass: 'form-control'},
+		isbn: {type: 'Text', editorClass: 'form-control'}
 	},
-
 	submitButton: 'Submit',
 
 	events: {

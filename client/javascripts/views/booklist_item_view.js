@@ -30,7 +30,7 @@ var BooklistItemView = Backbone.View.extend({
 
 	onToggleRate: function(event) {
 		event.preventDefault();
-		$(event.currentTarget).parent().next().toggle();
+		this.$('.togglediv').toggle();
 	},
 
 	onClickRate: function(event) {

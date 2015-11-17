@@ -13,8 +13,9 @@ var BookView = Backbone.View.extend({
 	},
 	render: function(options) {
 		var book = new Book();
+		this.$el.html(this.template());
 		this.form.render();
-		this.$el.html(this.form.el);
+		this.$('#form-container').append(this.form.el);
 		return this;
 	}
 });
