@@ -12,19 +12,16 @@ router.get('/', function(req, res, next) {
 	});
 });
 
-router.get('/:title', function(req, res, next) {
-	var title = req.params.title;
-	if(title) {
-		Book.findByTitle(title, function(err, data) {
-			if(err) {
-				return res.status(400).json({msg: err});
-			} else {
-				return res.status(200).json(data);
-			}
-		});
-	} else {
-		return res.status(400).json({msg: 'You need to specify a title'});
-	}
+router.get('/:book_id', function(req, res, next) {
+	var id = req.params.book_id;
+	Book.findById(id, function(err, data) {
+		if(err) {
+			return res.status(400).json({msg: err});
+		} else {
+			return res.status(200).json(data);
+		}
+	});
+	return res.status(400).json({msg: 'You need to specify a title'});
 });
 
 router.post('/', function(req, res, next) {

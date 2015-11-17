@@ -5,11 +5,15 @@ var BooklistItemView = require('./booklist_item_view');
 var Backbone = require('backbone');
 
 var BookCollectionView = Backbone.View.extend({
-	tagName: 'ul',
+	tagName: 'div',
 	initialize: function() {
-		this.listenTo(this.collection, 'change', this.render);
+		this.collection.fetch();
+		this.listenTo(this.collection, 'add', this.render);
+  		this.listenTo(this.collection, 'reset', this.render);
+  		this.listenTo(this.collection, 'remove', this.render);
 	},
 	render: function() {
+		this.$el.empty();
 		var self = this;
 		this.collection.each(function(item) {
 			var itemView = new BooklistItemView({model: item});

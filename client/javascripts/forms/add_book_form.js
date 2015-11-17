@@ -9,10 +9,6 @@ Backbone.$ = $;
 var BookForm = Backbone.Form.extend({
 	template: BookFormTemplate,
 
-	/*initialize: function() {
-		this.model = new Book();
-	},*/
-
 	schema: {
 		title: {type: 'Text'},
 		author: {type: 'Text'},
@@ -32,6 +28,7 @@ var BookForm = Backbone.Form.extend({
 		this.commit();
 		console.log(this.model);
 		this.model.save();
+		window.location.replace = '/';
 	}
 })
 

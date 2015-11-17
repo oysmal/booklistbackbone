@@ -12,10 +12,12 @@ var BooklistItemView = Backbone.View.extend({
 	},
 	render: function(options) {
 		this.$el.html(this.template({book: this.model.toJSON()}));
+		// Toggle off rate view.
+		$(this.el).children().eq(0).children().eq(1).toggle(false);
 		return this;
 	},
 	events: {
-		'click .title': 'onClickItem',
+		'click .book-info': 'onClickItem',
 		'click button.toggle': 'onToggleRate',
 		'click button.rate': 'onClickRate'
 	},
@@ -27,8 +29,6 @@ var BooklistItemView = Backbone.View.extend({
 
 	onToggleRate: function(event) {
 		event.preventDefault();
-		console.log('Clicked toggle');
-		console.log($(event.currentTarget).parent().next());
 		$(event.currentTarget).parent().next().toggle();
 	},
 

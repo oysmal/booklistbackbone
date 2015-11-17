@@ -14,7 +14,6 @@ var BookView = Backbone.View.extend({
 	render: function(options) {
 		var book = new Book();
 		this.form.render();
-		console.log(this.form.el);
 		this.$el.html(this.form.el);
 		return this;
 	}

@@ -21,9 +21,6 @@ var BookRouter = Backbone.Router.extend({
 
 	booklist: function() {
 		$('#container').html(new BookCollectionView({collection: collection}).render().el);
-		$('.togglediv').each(function() {
-			$(this).toggle(false);
-		});
 	},
 
 	viewBook: function(title) {
@@ -47,9 +44,7 @@ var BookRouter = Backbone.Router.extend({
 window.onload = function() {
 	var router = new BookRouter();
 	Backbone.history.start();
-	router.navigate('booklist', {trigger: true})
-	/*var booklistView = new BookCollectionView({collection: dummy, el: $('#booklist')});
-	booklistView.render();*/
+	router.navigate('booklist', {trigger: true});
 };
 
 },{"./mock-collections":3,"./models/book_collection":5,"./views/add_book_view":10,"./views/book_collection_view":11,"./views/book_view":12,"backbone":15,"backbone-forms":14,"jquery":37,"underscore":38}],2:[function(require,module,exports){
@@ -63,10 +58,6 @@ Backbone.$ = $;
 
 var BookForm = Backbone.Form.extend({
 	template: BookFormTemplate,
-
-	/*initialize: function() {
-		this.model = new Book();
-	},*/
 
 	schema: {
 		title: {type: 'Text'},
@@ -87,6 +78,7 @@ var BookForm = Backbone.Form.extend({
 		this.commit();
 		console.log(this.model);
 		this.model.save();
+		window.location.replace = '/';
 	}
 })
 
@@ -196,11 +188,13 @@ var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "<div class=\"booklist-item row\">\n\n	<div class=\"row\">\n		<h4 class=\"title col-xs-10\">Title: "
+  return "<div class=\"booklist-item row\">\n\n	<div class=\"row\">\n		<div class=\"book-info\">\n			<h4 class=\"title col-xs-5\">Title: "
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.title : stack1), depth0))
-    + "</h4>\n		<button class=\"btn toggle col-xs-2\" name=\"rate\">Rate</button>\n	</div>\n\n	<div class=\"togglediv row dropdown-container\">\n		<label class=\"col-xs-6\" for=\"id_rate\">Rate: </label>\n		<div class=\"col-xs-1\"></div>\n		<input class=\"rate_value col-xs-2\" type=\"number\" id=\"id_rate\" name=\"rate\" min=\"1\" max=\"6\" value=\""
+    + "</h4>\n			<h4 class=\"rating col-xs-5\">Rating: "
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.rating : stack1), depth0))
-    + "\" />\n		<div class=\"col-xs-1\"></div>\n		<button class=\"btn btn-primary rate col-xs-2\" name=\"submit\">Rate</submit>\n	</div>\n\n</div>\n";
+    + "</h4>\n		</div>\n		<button class=\"btn toggle col-xs-2\" name=\"rate\">Rate</button>\n	</div>\n\n	<div class=\"togglediv row dropdown-container\">\n		<label class=\"col-xs-4\" for=\"id_rate\">Rate: </label>\n		<div class=\"col-xs-1\"></div>\n		<input class=\"rate_value col-xs-3\" type=\"number\" id=\"id_rate\" name=\"rate\" min=\"1\" max=\"6\" value=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.rating : stack1), depth0))
+    + "\" />\n		<div class=\"col-xs-1\"></div>\n		<button class=\"btn btn-primary rate col-xs-3\" name=\"submit\">Rate</submit>\n	</div>\n\n</div>\n";
 },"useData":true});
 
 },{"hbsfy/runtime":36}],10:[function(require,module,exports){
@@ -220,7 +214,6 @@ var BookView = Backbone.View.extend({
 	render: function(options) {
 		var book = new Book();
 		this.form.render();
-		console.log(this.form.el);
 		this.$el.html(this.form.el);
 		return this;
 	}
@@ -235,11 +228,15 @@ var BooklistItemView = require('./booklist_item_view');
 var Backbone = require('backbone');
 
 var BookCollectionView = Backbone.View.extend({
-	tagName: 'ul',
+	tagName: 'div',
 	initialize: function() {
-		this.listenTo(this.collection, 'change', this.render);
+		this.collection.fetch();
+		this.listenTo(this.collection, 'add', this.render);
+  		this.listenTo(this.collection, 'reset', this.render);
+  		this.listenTo(this.collection, 'remove', this.render);
 	},
 	render: function() {
+		this.$el.empty();
 		var self = this;
 		this.collection.each(function(item) {
 			var itemView = new BooklistItemView({model: item});
@@ -272,6 +269,7 @@ var BookView = Backbone.View.extend({
 
 	onClickRemove: function(event) {
 		this.model.destroy();
+		window.location.replace = '/';
 	}
 });
 
@@ -291,10 +289,12 @@ var BooklistItemView = Backbone.View.extend({
 	},
 	render: function(options) {
 		this.$el.html(this.template({book: this.model.toJSON()}));
+		// Toggle off rate view.
+		$(this.el).children().eq(0).children().eq(1).toggle(false);
 		return this;
 	},
 	events: {
-		'click .title': 'onClickItem',
+		'click .book-info': 'onClickItem',
 		'click button.toggle': 'onToggleRate',
 		'click button.rate': 'onClickRate'
 	},
@@ -306,8 +306,6 @@ var BooklistItemView = Backbone.View.extend({
 
 	onToggleRate: function(event) {
 		event.preventDefault();
-		console.log('Clicked toggle');
-		console.log($(event.currentTarget).parent().next());
 		$(event.currentTarget).parent().next().toggle();
 	},
 
