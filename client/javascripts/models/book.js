@@ -7,7 +7,7 @@ var Book = Backbone.Model.extend({
 		title: '',
 		author: '',
 		genre: '',
-		rating: 0,
+		rating: 1,
 		isbn: ''
 	}
 });

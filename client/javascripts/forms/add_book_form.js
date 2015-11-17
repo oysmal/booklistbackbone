@@ -24,9 +24,10 @@ var BookForm = Backbone.Form.extend({
 
 	onAddBookClick: function(e) {
 		e.preventDefault();
+		console.log('test');
 		this.commit();
 		this.model.save();
-		window.location.replace = '/';
+		window.location = '/';
 	}
 })
 

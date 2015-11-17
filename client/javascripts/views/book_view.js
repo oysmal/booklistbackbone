@@ -17,7 +17,7 @@ var BookView = Backbone.View.extend({
 
 	onClickRemove: function(event) {
 		this.model.destroy();
-		window.location.replace = '/';
+		window.location = '/';
 	}
 });
 

@@ -11,6 +11,10 @@ var BookCollectionView = Backbone.View.extend({
 		this.listenTo(this.collection, 'add', this.render);
   		this.listenTo(this.collection, 'reset', this.render);
   		this.listenTo(this.collection, 'remove', this.render);
+  		var self = this;
+  		setInterval(function() {
+  			self.collection.fetch();
+  		}, 5000);
 	},
 	render: function() {
 		this.$el.empty();

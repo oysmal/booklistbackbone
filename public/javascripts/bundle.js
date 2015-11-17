@@ -74,9 +74,10 @@ var BookForm = Backbone.Form.extend({
 
 	onAddBookClick: function(e) {
 		e.preventDefault();
+		console.log('test');
 		this.commit();
 		this.model.save();
-		window.location.replace = '/';
+		window.location = '/';
 	}
 })
 
@@ -128,7 +129,7 @@ var Book = Backbone.Model.extend({
 		title: '',
 		author: '',
 		genre: '',
-		rating: 0,
+		rating: 1,
 		isbn: ''
 	}
 });
@@ -232,6 +233,10 @@ var BookCollectionView = Backbone.View.extend({
 		this.listenTo(this.collection, 'add', this.render);
   		this.listenTo(this.collection, 'reset', this.render);
   		this.listenTo(this.collection, 'remove', this.render);
+  		var self = this;
+  		setInterval(function() {
+  			self.collection.fetch();
+  		}, 5000);
 	},
 	render: function() {
 		this.$el.empty();
@@ -267,7 +272,7 @@ var BookView = Backbone.View.extend({
 
 	onClickRemove: function(event) {
 		this.model.destroy();
-		window.location.replace = '/';
+		window.location = '/';
 	}
 });
 
