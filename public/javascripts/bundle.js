@@ -74,9 +74,7 @@ var BookForm = Backbone.Form.extend({
 
 	onAddBookClick: function(e) {
 		e.preventDefault();
-		console.log(this.getValue());
 		this.commit();
-		console.log(this.model);
 		this.model.save();
 		window.location.replace = '/';
 	}
@@ -188,13 +186,13 @@ var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "<div class=\"booklist-item row\">\n\n	<div class=\"row\">\n		<div class=\"book-info\">\n			<h4 class=\"title col-xs-5\">Title: "
+  return "<div class=\"booklist-item row\">\n\n	<div class=\"row\">\n		<div class=\"book-info\">\n			<h4 class=\"book-title col-xs-4\">Title: "
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.title : stack1), depth0))
-    + "</h4>\n			<h4 class=\"rating col-xs-5\">Rating: "
+    + "</h4>\n			<h4 class=\"rating col-xs-2\">Rating: "
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.rating : stack1), depth0))
-    + "</h4>\n		</div>\n		<button class=\"btn toggle col-xs-2\" name=\"rate\">Rate</button>\n	</div>\n\n	<div class=\"togglediv row dropdown-container\">\n		<label class=\"col-xs-4\" for=\"id_rate\">Rate: </label>\n		<div class=\"col-xs-1\"></div>\n		<input class=\"rate_value col-xs-3\" type=\"number\" id=\"id_rate\" name=\"rate\" min=\"1\" max=\"6\" value=\""
+    + "</h4>\n		</div>\n		<button class=\"btn toggle col-xs-2\" name=\"rate\">Rate</button>\n	</div>\n\n	<div class=\"togglediv row dropdown-container\">\n		<label class=\"col-xs-2\" for=\"id_rate\">Rate: </label>\n		<div class=\"col-xs-1\"></div>\n		<input class=\"rate_value col-xs-2\" type=\"number\" id=\"id_rate\" name=\"rate\" min=\"1\" max=\"6\" value=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.rating : stack1), depth0))
-    + "\" />\n		<div class=\"col-xs-1\"></div>\n		<button class=\"btn btn-primary rate col-xs-3\" name=\"submit\">Rate</submit>\n	</div>\n\n</div>\n";
+    + "\" />\n		<div class=\"col-xs-1\"></div>\n		<button class=\"btn btn-primary rate col-xs-2\" name=\"submit\">Rate</submit>\n	</div>\n\n</div>\n";
 },"useData":true});
 
 },{"hbsfy/runtime":36}],10:[function(require,module,exports){

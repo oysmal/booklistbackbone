@@ -20,3 +20,13 @@ a {
 	padding: 1vw;
 	border-radius: 1vw;
 }
+
+.book-title: {
+	color: #4444BB;
+	border-bottom: 0.1em solid #FFFFF1;
+}
+
+.book-title:hover {
+	color: #2222AA;
+	border-bottom: 0.1em solid #2222AA;
+}

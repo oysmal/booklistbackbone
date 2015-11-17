@@ -2,18 +2,18 @@
 
 	<div class="row">
 		<div class="book-info">
-			<h4 class="title col-xs-5">Title: {{book.title}}</h4>
-			<h4 class="rating col-xs-5">Rating: {{book.rating}}</h4>
+			<h4 class="book-title col-xs-4">Title: {{book.title}}</h4>
+			<h4 class="rating col-xs-2">Rating: {{book.rating}}</h4>
 		</div>
 		<button class="btn toggle col-xs-2" name="rate">Rate</button>
 	</div>
 
 	<div class="togglediv row dropdown-container">
-		<label class="col-xs-4" for="id_rate">Rate: </label>
+		<label class="col-xs-2" for="id_rate">Rate: </label>
 		<div class="col-xs-1"></div>
-		<input class="rate_value col-xs-3" type="number" id="id_rate" name="rate" min="1" max="6" value="{{book.rating}}" />
+		<input class="rate_value col-xs-2" type="number" id="id_rate" name="rate" min="1" max="6" value="{{book.rating}}" />
 		<div class="col-xs-1"></div>
-		<button class="btn btn-primary rate col-xs-3" name="submit">Rate</submit>
+		<button class="btn btn-primary rate col-xs-2" name="submit">Rate</submit>
 	</div>
 
 </div>
