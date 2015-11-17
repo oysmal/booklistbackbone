@@ -186,7 +186,7 @@ module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":f
 // hbsfy compiled Handlebars template
 var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<div class=\"booklist\">\n\n	<h1>SJØlveste Booklisten</h1>\n	<br />\n	<br />\n	\n	<div class=\"row\">\n\n		<button id=\"sort-rating-submit\" class=\"btn btn-info col-xs-1\">Sort by rating</button>\n		<button id=\"sort-title-submit\" class=\"btn btn-info col-xs-1\">Sort by title</button>\n		\n		<label for=\"search-query\" class=\"col-xs-6\">Search for Title or ISBN: \n			<input id=\"search-query\" type=\"text\" name=\"search\" />\n			<button id=\"search-submit\" class=\"btn btn-success\">Search</button>\n		</label>\n\n	</div>\n\n	<br />\n	\n	<div id=\"content-list\"></div>\n\n</div>\n";
+    return "<div class=\"booklist\">\n\n	<h1>SJØlveste Booklisten</h1>\n	<br />\n	<br />\n	\n	<div class=\"container-fluid\">\n		<div class=\"row\">\n\n			<button id=\"sort-rating-submit\" class=\"btn btn-info col-md-2\">Sort by rating</button>\n			<button id=\"sort-title-submit\" class=\"btn btn-info col-md-2\">Sort by title</button>\n			\n			<label for=\"search-query\" class=\"col-md-6\">Search for Title or ISBN: \n				<input id=\"search-query\" type=\"text\" name=\"search\" />\n				<button id=\"search-submit\" class=\"btn btn-success\">Search</button>\n			</label>\n\n		</div>\n	</div>\n\n	<br />\n	\n	<div id=\"content-list\"></div>\n\n</div>\n";
 },"useData":true});
 
 },{"hbsfy/runtime":37}],10:[function(require,module,exports){
@@ -195,7 +195,7 @@ var HandlebarsCompiler = require('hbsfy/runtime');
 module.exports = HandlebarsCompiler.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "<div class=\"booklist-item row list-group-item\">\n\n	<div class=\"row\">\n\n		<div class=\"book-info\">\n			<h4 class=\"book-title col-xs-6\">Title: "
+  return "<div class=\"booklist-item row list-group-item container-fluid\">\n\n	<div class=\"row\">\n\n		<div class=\"book-info\">\n			<h4 class=\"book-title col-xs-6\">Title: "
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.title : stack1), depth0))
     + "</h4>\n			<h4 class=\"rating col-xs-2\">Rating: "
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.book : depth0)) != null ? stack1.rating : stack1), depth0))
