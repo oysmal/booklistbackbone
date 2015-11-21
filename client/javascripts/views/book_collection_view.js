@@ -40,7 +40,7 @@ var BookCollectionView = Backbone.View.extend({
 		_(this.collection.models).each(function(model) {
 			var value = $('#search-query').val().toLowerCase();
 			console.log(model.get('title'));
-			if(model.get('title').toLowerCase().contains(value) || model.get('isbn').toLowerCase().contains(value)) {
+			if(model.get('title').toLowerCase().indexOf(value) != -1 || model.get('isbn').toLowerCase().indexOf(value) != -1) {
 				list.push(model);
 			}
 		});

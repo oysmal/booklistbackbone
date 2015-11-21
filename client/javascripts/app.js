@@ -1,4 +1,3 @@
-var dummy = require('./mock-collections');
 var BookCollectionView = require('./views/book_collection_view');
 var BookCollection = require('./models/book_collection');
 var BookView = require('./views/book_view');
